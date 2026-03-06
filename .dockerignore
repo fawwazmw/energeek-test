@@ -1,0 +1,60 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+!README.md
+AI_USAGE.md
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Laravel
+energeek-be/vendor
+energeek-be/storage/*.key
+energeek-be/storage/logs/*
+energeek-be/storage/framework/cache/*
+energeek-be/storage/framework/sessions/*
+energeek-be/storage/framework/views/*
+energeek-be/.env
+energeek-be/.env.backup
+
+# Frontend
+energeek-fe/dist
+energeek-fe/node_modules
+energeek-fe/.env.local
+energeek-fe/.env.*.local
+
+# Testing
+energeek-be/tests
+energeek-fe/src/**/__tests__
+coverage
+.phpunit.result.cache
+
+# Docker
+docker-compose.yml
+docker-compose.*.yml
+!docker-compose.prod.yml
+Dockerfile
+.dockerignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+tmp
+temp
+*.log
+bruno_collections
