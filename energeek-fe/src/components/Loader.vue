@@ -1,44 +1,13 @@
 <template>
-    <div class="loader-container">
-        <div class="spinner"></div>
-        <p v-if="text">{{ text }}</p>
-    </div>
+  <div class="flex flex-col items-center justify-center gap-3 py-10">
+    <svg class="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+    </svg>
+    <p v-if="text" class="text-sm text-gray-500">{{ text }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
-
-defineProps<{
-    text?: string;
-}>();
+defineProps<{ text?: string }>();
 </script>
-
-<style scoped>
-.loader-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-top-color: #007bff;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-    margin-bottom: 10px;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.loader-container p {
-    color: #555;
-    font-size: 1.1rem;
-}
-</style>

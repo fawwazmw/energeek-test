@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { projectApi, categoryApi, taskApi } from '../services/api';
-import { Project, Task, Category } from '../types';
+import type { Project, Task, Category } from '../types';
 
 export const useProjectStore = defineStore('project', () => {
     const projects = ref<Project[]>([]);

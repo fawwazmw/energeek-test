@@ -25,6 +25,7 @@ export interface Project {
     updated_at: string;
     creator?: User; // Optional, loaded via relationship
     tasks?: Task[]; // Optional, loaded via relationship
+    tasks_count?: number; // Added for projects list
 }
 
 export interface Task {

@@ -1,7 +1,17 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
+import { computed } from 'vue';
+import { useRoute, RouterView } from 'vue-router';
+import AppLayout from './components/AppLayout.vue';
+
+const route = useRoute();
+const useLayout = computed(() => route.meta.requiresAuth);
 </script>
 
 <template>
-  <RouterView />
+  <AppLayout v-if="useLayout">
+    <template #default>
+      <RouterView />
+    </template>
+  </AppLayout>
+  <RouterView v-else />
 </template>

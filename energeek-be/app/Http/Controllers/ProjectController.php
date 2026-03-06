@@ -20,7 +20,7 @@ class ProjectController extends Controller
             $query->where('status', $request->status);
         }
 
-        $projects = $query->with('creator')->latest()->get();
+        $projects = $query->with('creator')->withCount('tasks')->latest()->get();
 
         return response()->json($projects);
     }

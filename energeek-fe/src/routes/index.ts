@@ -6,6 +6,7 @@ const Login = () => import('../views/Auth/Login.vue');
 const Dashboard = () => import('../views/Dashboard.vue');
 const ProjectList = () => import('../views/Project/ProjectList.vue');
 const ProjectDetail = () => import('../views/Project/ProjectDetail.vue');
+const TaskList = () => import('../views/Task/TaskList.vue');
 
 const routes = [
     {
@@ -38,6 +39,12 @@ const routes = [
         props: true, // Pass route params as props
         meta: { requiresAuth: true }
     },
+    {
+        path: '/tasks',
+        name: 'TaskList',
+        component: TaskList,
+        meta: { requiresAuth: true }
+    },
     // Fallback route for 404 (optional, but good practice)
     {
         path: '/:pathMatch(.*)*',
@@ -51,7 +58,7 @@ const router = createRouter({
     routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
     const authStore = useAuthStore();
     
     // Check if route requires authentication
