@@ -24,7 +24,7 @@ const getGreeting = () => {
 const greeting = computed(() => getGreeting());
 
 const getDueDateInfo = (dateString: string) => {
-  if (!dateString) return { text: 'No due date', colorClass: 'bg-gray-400' };
+  if (!dateString) return { text: 'No due date', dotClass: 'bg-gray-400', textClass: 'text-gray-600' };
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -38,23 +38,27 @@ const getDueDateInfo = (dateString: string) => {
   if (diffDays < 0) {
     return {
       text: `${Math.abs(diffDays)} days ago`,
-      colorClass: 'bg-red-500'
+      dotClass: 'bg-red-500',
+      textClass: 'text-red-500'
     };
   } else if (diffDays === 0) {
     return {
       text: 'Today',
-      colorClass: 'bg-red-500'
+      dotClass: 'bg-red-500',
+      textClass: 'text-red-500'
     };
   } else if (diffDays === 1) {
     return {
       text: 'Tomorrow',
-      colorClass: 'bg-yellow-400'
+      dotClass: 'bg-yellow-500',
+      textClass: 'text-yellow-500'
     };
   } else {
     const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
     return {
       text: dueDate.toLocaleDateString('en-GB', options),
-      colorClass: 'bg-blue-500'
+      dotClass: 'bg-blue-500',
+      textClass: 'text-blue-500'
     };
   }
 };
@@ -145,7 +149,7 @@ onMounted(async () => {
               class="px-5 py-4 flex items-center gap-4 hover:bg-gray-50 transition-colors"
             >
               <div class="flex-shrink-0 flex items-center justify-center">
-                <div :class="['h-3 w-3 rounded-full', getDueDateInfo(task.due_date).colorClass]"></div>
+                <div :class="['h-3 w-3 rounded-full', getDueDateInfo(task.due_date).dotClass]"></div>
               </div>
               
               <div class="min-w-0 flex-1 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -155,7 +159,7 @@ onMounted(async () => {
                 </div>
                 
                 <div class="flex-shrink-0">
-                  <span class="text-sm text-gray-600 font-medium whitespace-nowrap">
+                  <span :class="['text-sm font-medium whitespace-nowrap', getDueDateInfo(task.due_date).textClass]">
                     {{ getDueDateInfo(task.due_date).text }}
                   </span>
                 </div>

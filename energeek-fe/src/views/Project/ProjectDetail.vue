@@ -12,7 +12,7 @@ const projectStore = useProjectStore();
 const route = useRoute();
 const router = useRouter();
 
-const projectId = ref<number | null>(null);
+const projectSlug = ref<string | null>(null);
 const currentProjectToEdit = ref<Project | null>(null);
 
 const getDueDateInfo = (dateString: string) => {
@@ -63,16 +63,16 @@ const doneTasksCount = computed(() => {
 const totalTasksCount = computed(() => projectStore.currentProject?.tasks?.length || 0);
 
 onMounted(() => {
-  projectId.value = Number(route.params.id);
-  if (projectId.value) {
-    projectStore.fetchProject(projectId.value);
+  projectSlug.value = route.params.slug as string;
+  if (projectSlug.value) {
+    projectStore.fetchProject(projectSlug.value);
     projectStore.fetchCategories();
   }
 });
 
-watch(() => route.params.id, (newId) => {
-  projectId.value = Number(newId);
-  if (projectId.value) projectStore.fetchProject(projectId.value);
+watch(() => route.params.slug, (newSlug) => {
+  projectSlug.value = newSlug as string;
+  if (projectSlug.value) projectStore.fetchProject(projectSlug.value);
 });
 
 // Task modal
@@ -83,7 +83,7 @@ const openCreateTaskModal = () => { editingTask.value = null; isTaskModalOpen.va
 const openEditTaskModal = (task: Task) => { editingTask.value = { ...task }; isTaskModalOpen.value = true; };
 
 const saveTask = async (taskData: Partial<Task>) => {
-  if (projectId.value === null) return;
+  if (!projectStore.currentProject?.id) return;
   try {
     if (editingTask.value) {
       await projectStore.updateTask(editingTask.value.id, taskData);
@@ -92,7 +92,7 @@ const saveTask = async (taskData: Partial<Task>) => {
       await projectStore.createTask(taskData.project_id as number, taskData as any);
     }
     isTaskModalOpen.value = false;
-    await projectStore.fetchProject(projectId.value);
+    // No need to refetch - store already updated currentProject.tasks
   } catch (error) {
     throw error;
   }
@@ -102,7 +102,7 @@ const deleteTask = async (taskId: number) => {
   if (!confirm('Are you sure you want to delete this task?')) return;
   try {
     await projectStore.deleteTask(taskId);
-    if (projectId.value) await projectStore.fetchProject(projectId.value);
+    // No need to refetch - store already updated currentProject.tasks
   } catch (error) {
     console.error('Error deleting task:', error);
   }
@@ -116,9 +116,9 @@ const openEditProjectModal = () => {
 };
 
 const handleUpdateProject = async (projectData: Partial<Project>) => {
-  if (projectId.value === null) return;
+  if (!projectSlug.value) return;
   try {
-    await projectStore.updateProject(projectId.value, projectData);
+    await projectStore.updateProject(projectSlug.value, projectData);
     isProjectModalOpen.value = false;
   } catch (error) {
     throw error;
@@ -139,28 +139,35 @@ const onDrop = async (event: DragEvent, targetCategoryId: number) => {
   event.preventDefault();
   dragOverCategoryId.value = null;
   const taskId = Number(event.dataTransfer?.getData('text/plain'));
-  if (isNaN(taskId) || !projectId.value) return;
+  if (isNaN(taskId)) return;
   const taskToMove = projectStore.currentProject?.tasks?.find(t => t.id === taskId);
   if (taskToMove && taskToMove.category_id !== targetCategoryId) {
-    try {
-      await projectStore.updateTask(taskId, { category_id: targetCategoryId });
+    // Optimistically update UI first for seamless experience
+    if (projectStore.currentProject?.tasks) {
+      const index = projectStore.currentProject.tasks.findIndex(t => t.id === taskId);
+      if (index !== -1) {
+        projectStore.currentProject.tasks[index] = {
+          ...projectStore.currentProject.tasks[index],
+          category_id: targetCategoryId,
+        } as Task;
+      }
+    }
 
-      // Manually update the local state to prevent re-fetching and "blinking"
+    try {
+      // Update on server without showing loader (skipLoading = true)
+      await projectStore.updateTask(taskId, { category_id: targetCategoryId }, true);
+    } catch (error) {
+      console.error('Error moving task:', error);
+      // Revert optimistic update on error
       if (projectStore.currentProject?.tasks) {
         const index = projectStore.currentProject.tasks.findIndex(t => t.id === taskId);
         if (index !== -1) {
-          // Create a new task object with the updated category_id and cast to Task
-          const updatedTask: Task = {
+          projectStore.currentProject.tasks[index] = {
             ...projectStore.currentProject.tasks[index],
-            category_id: targetCategoryId,
-          };
-          // Replace the task in the array with the updated task
-          projectStore.currentProject.tasks.splice(index, 1, updatedTask);
+            category_id: taskToMove.category_id,
+          } as Task;
         }
       }
-
-    } catch (error) {
-      console.error('Error moving task:', error);
     }
   }
 };
@@ -326,7 +333,7 @@ const columnColors: Record<string, string> = {
     <TaskFormModal
       :is-open="isTaskModalOpen"
       :task="editingTask"
-      :project-id="projectId"
+      :project-id="projectStore.currentProject?.id || null"
       :categories="projectStore.categories"
       @close="isTaskModalOpen = false"
       @save="saveTask"

@@ -22,7 +22,7 @@ watch([searchQuery, filterStatus], () => {
   projectStore.fetchProjects(searchQuery.value, filterStatus.value || undefined);
 });
 
-const navigateToProject = (id: number) => router.push({ name: 'ProjectDetail', params: { id } });
+const navigateToProject = (slug: string) => router.push({ name: 'ProjectDetail', params: { slug } });
 
 const handleCreateProject = async (projectData: Partial<Project>) => {
   try {
@@ -151,7 +151,7 @@ const formatDate = (dateString: string) => {
                     {{ formatDate(project.created_at) }}
                   </td>
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 flex items-center justify-end space-x-2">
-                    <span @click="navigateToProject(project.id)" class="inline-flex items-center rounded-md bg-gray-500 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-500/10 cursor-pointer hover:bg-gray-600">Detail</span>
+                    <span @click="navigateToProject(project.slug)" class="inline-flex items-center rounded-md bg-gray-500 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-500/10 cursor-pointer hover:bg-gray-600">Detail</span>
                     <span @click="openEditProject(project)" class="inline-flex items-center rounded-md bg-blue-500 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-blue-700/10 cursor-pointer hover:bg-blue-600">Edit</span>
                   </td>
                 </tr>

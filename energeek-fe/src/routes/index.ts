@@ -33,7 +33,7 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
-        path: '/projects/:id',
+        path: '/projects/:slug',
         name: 'ProjectDetail',
         component: ProjectDetail,
         props: true, // Pass route params as props

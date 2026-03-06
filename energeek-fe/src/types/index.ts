@@ -17,6 +17,7 @@ export interface Category {
 
 export interface Project {
     id: number;
+    slug: string;
     created_by: number;
     name: string;
     description: string;

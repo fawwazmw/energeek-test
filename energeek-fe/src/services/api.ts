@@ -75,8 +75,8 @@ export const authApi = {
 export const projectApi = {
     getProjects: (params?: any) => api.get('/projects', { params }),
     createProject: (data: any) => api.post('/projects', data),
-    getProject: (id: number) => api.get(`/projects/${id}`),
-    updateProject: (id: number, data: any) => api.put(`/projects/${id}`, data),
+    getProject: (slug: string) => api.get(`/projects/${slug}`),
+    updateProject: (slug: string, data: any) => api.put(`/projects/${slug}`, data),
 };
 
 export const taskApi = {

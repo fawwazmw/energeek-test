@@ -27,11 +27,11 @@ export const useProjectStore = defineStore('project', () => {
         }
     }
 
-    async function fetchProject(id: number) {
+    async function fetchProject(slug: string) {
         loading.value = true;
         error.value = null;
         try {
-            const response = await projectApi.getProject(id);
+            const response = await projectApi.getProject(slug);
             currentProject.value = response.data;
         } catch (err: any) {
             error.value = err.response?.data?.message || 'Failed to fetch project.';
@@ -57,19 +57,28 @@ export const useProjectStore = defineStore('project', () => {
         }
     }
 
-    async function updateProject(id: number, updatedFields: Partial<Project>) {
+    async function updateProject(slugOrId: string | number, updatedFields: Partial<Project>) {
         loading.value = true;
         error.value = null;
         try {
-            const response = await projectApi.updateProject(id, updatedFields);
-            const index = projects.value.findIndex(p => p.id === id);
+            // Determine if we have a slug or id
+            const identifier = typeof slugOrId === 'string' ? slugOrId : 
+                              currentProject.value?.slug || projects.value.find(p => p.id === slugOrId)?.slug || String(slugOrId);
+            
+            const response = await projectApi.updateProject(identifier, updatedFields);
+            const updatedProject = response.data.project;
+            
+            // Update in projects list by id
+            const index = projects.value.findIndex(p => p.id === updatedProject.id);
             if (index !== -1) {
-                projects.value[index] = { ...projects.value[index], ...response.data.project };
+                projects.value[index] = { ...projects.value[index], ...updatedProject };
             }
-            if (currentProject.value && currentProject.value.id === id) {
-                currentProject.value = { ...currentProject.value, ...response.data.project };
+            
+            // Update currentProject if it matches
+            if (currentProject.value && currentProject.value.id === updatedProject.id) {
+                currentProject.value = { ...currentProject.value, ...updatedProject };
             }
-            return response.data.project;
+            return updatedProject;
         } catch (err: any) {
             error.value = err.response?.data?.message || 'Failed to update project.';
             console.error('Error updating project:', err);
@@ -114,8 +123,10 @@ export const useProjectStore = defineStore('project', () => {
         }
     }
 
-    async function updateTask(taskId: number, updatedFields: Partial<Task>) {
-        loading.value = true;
+    async function updateTask(taskId: number, updatedFields: Partial<Task>, skipLoading = false) {
+        if (!skipLoading) {
+            loading.value = true;
+        }
         error.value = null;
         try {
             const response = await taskApi.updateTask(taskId, updatedFields);
@@ -131,7 +142,9 @@ export const useProjectStore = defineStore('project', () => {
             console.error('Error updating task:', err);
             throw err;
         } finally {
-            loading.value = false;
+            if (!skipLoading) {
+                loading.value = false;
+            }
         }
     }
 
