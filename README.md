@@ -52,7 +52,10 @@ php artisan db:seed
 
 ### Frontend (`energeek-fe`)
 
-_(Instructions will be added as frontend is developed.)_
+```bash
+cd energeek-fe
+npm install
+```
 
 ## Running the Application
 
@@ -72,7 +75,12 @@ API will be available at `http://localhost:8000/api`
 
 ### Frontend
 
-_(Instructions will be added as frontend is developed.)_
+```bash
+cd energeek-fe
+npm run dev
+```
+
+Frontend will be available at `http://localhost:5173` (default Vite port)
 
 ## Testing
 
@@ -85,4 +93,7 @@ php artisan test
 
 ### Frontend (Vitest)
 
-_(Instructions will be added as frontend is developed.)_
+```bash
+cd energeek-fe
+npm test
+```

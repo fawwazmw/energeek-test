@@ -1,0 +1,408 @@
+{
+  "version": "1",
+  "name": "Task Project Tracker API",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "basePath": "{{BASE_URL}}",
+  "environment": {
+    "BASE_URL": "http://localhost:8000/api",
+    "AUTH_TOKEN": "YOUR_LARAVEL_SANCTUM_TOKEN"
+  },
+  "items": [
+    {
+      "name": "Auth",
+      "type": "folder",
+      "items": [
+        {
+          "name": "Login",
+          "request": {
+            "url": "{{BASE_URL}}/login",
+            "method": "POST",
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password\"\n}"
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Request: email (string), password (string)\nResponse: access_token, token_type, user"
+            }
+          },
+          "type": "http"
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "url": "{{BASE_URL}}/logout",
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Authenticated"
+            }
+          },
+          "type": "http"
+        },
+        {
+          "name": "Me",
+          "request": {
+            "url": "{{BASE_URL}}/me",
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Authenticated"
+            }
+          },
+          "type": "http"
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "type": "folder",
+      "items": [
+        {
+          "name": "Get All Projects",
+          "request": {
+            "url": "{{BASE_URL}}/projects?search=example&status=active",
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Query params: search (string), status ('active' or 'archived')\nAuthenticated"
+            }
+          },
+          "type": "http"
+        },
+        {
+          "name": "Create Project",
+          "request": {
+            "url": "{{BASE_URL}}/projects",
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"name\": \"New Project\",\n  \"description\": \"A new project description\",\n  \"status\": \"active\"\n}"
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Request: name (string), description (string), status ('active' or 'archived')\nAuthenticated"
+            }
+          },
+          "type": "http"
+        },
+        {
+          "name": "Get Project by ID",
+          "request": {
+            "url": "{{BASE_URL}}/projects/1",
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Authenticated"
+            }
+          },
+          "type": "http"
+        },
+        {
+          "name": "Update Project (PUT)",
+          "request": {
+            "url": "{{BASE_URL}}/projects/1",
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"name\": \"Updated Project Name\",\n  \"description\": \"Updated description\",\n  \"status\": \"archived\"\n}"
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Request: name (string, optional), description (string, optional), status ('active' or 'archived', optional)\nAuthenticated"
+            }
+          },
+          "type": "http"
+        },
+        {
+          "name": "Update Project (PATCH)",
+          "request": {
+            "url": "{{BASE_URL}}/projects/1",
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"name\": \"Partially Updated Project Name\"\n}"
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Request: name (string, optional), description (string, optional), status ('active' or 'archived', optional)\nAuthenticated"
+            }
+          },
+          "type": "http"
+        }
+      ]
+    },
+    {
+      "name": "Tasks",
+      "type": "folder",
+      "items": [
+        {
+          "name": "Get All Tasks",
+          "request": {
+            "url": "{{BASE_URL}}/tasks?search=task&project_id=1&category_id=1",
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Query params: search (string), project_id (number), category_id (number)\nAuthenticated"
+            }
+          },
+          "type": "http"
+        },
+        {
+          "name": "Get Project Tasks",
+          "request": {
+            "url": "{{BASE_URL}}/projects/1/tasks",
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Authenticated"
+            }
+          },
+          "type": "http"
+        },
+        {
+          "name": "Create Task",
+          "request": {
+            "url": "{{BASE_URL}}/tasks",
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"project_id\": 1,\n  \"category_id\": 1,\n  \"title\": \"New Task Title\",\n  \"description\": \"Description for new task\",\n  \"due_date\": \"2026-12-31\"\n}"
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Request: project_id (number), category_id (number), title (string), description (string), due_date (date: 'YYYY-MM-DD')\nAuthenticated"
+            }
+          },
+          "type": "http"
+        },
+        {
+          "name": "Get Task by ID",
+          "request": {
+            "url": "{{BASE_URL}}/tasks/1",
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Authenticated"
+            }
+          },
+          "type": "http"
+        },
+        {
+          "name": "Update Task (PUT)",
+          "request": {
+            "url": "{{BASE_URL}}/tasks/1",
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"title\": \"Updated Task Title\",\n  \"due_date\": \"2027-01-15\"\n}"
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Request: project_id (number, optional), category_id (number, optional), title (string, optional), description (string, optional), due_date (date: 'YYYY-MM-DD', optional)\nAuthenticated"
+            }
+          },
+          "type": "http"
+        },
+        {
+          "name": "Update Task (PATCH)",
+          "request": {
+            "url": "{{BASE_URL}}/tasks/1",
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"title\": \"Partially Updated Task Title\"\n}"
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Request: project_id (number, optional), category_id (number, optional), title (string, optional), description (string, optional), due_date (date: 'YYYY-MM-DD', optional)\nAuthenticated"
+            }
+          },
+          "type": "http"
+        },
+        {
+          "name": "Delete Task",
+          "request": {
+            "url": "{{BASE_URL}}/tasks/1",
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Authenticated"
+            }
+          },
+          "type": "http"
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "type": "folder",
+      "items": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "url": "{{BASE_URL}}/categories",
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Authenticated"
+            }
+          },
+          "type": "http"
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "type": "folder",
+      "items": [
+        {
+          "name": "Get Dashboard Data",
+          "request": {
+            "url": "{{BASE_URL}}/dashboard",
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{AUTH_TOKEN}}"
+              }
+            },
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "docs": {
+              "text": "Response: total_active_projects (number), total_unfinished_tasks (number), tasks_near_due_date (array of Task objects)\nAuthenticated"
+            }
+          },
+          "type": "http"
+        }
+      ]
+    }
+  ]
+}
