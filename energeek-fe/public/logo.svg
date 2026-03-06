@@ -1,0 +1,64 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle (optional, can be removed for transparency) -->
+  <circle cx="100" cy="100" r="95" fill="url(#bgGradient)"/>
+  
+  <!-- Kanban Board Base -->
+  <rect x="35" y="45" width="130" height="110" rx="8" fill="white" fill-opacity="0.95"/>
+  
+  <!-- Column 1 - Todo (Blue) -->
+  <g>
+    <!-- Column Header -->
+    <rect x="45" y="55" width="30" height="5" rx="2.5" fill="url(#blueGradient)"/>
+    <!-- Cards -->
+    <rect x="45" y="67" width="30" height="18" rx="3" fill="url(#blueGradient)" opacity="0.9"/>
+    <rect x="45" y="90" width="30" height="18" rx="3" fill="url(#blueGradient)" opacity="0.7"/>
+    <rect x="45" y="113" width="30" height="18" rx="3" fill="url(#blueGradient)" opacity="0.5"/>
+  </g>
+  
+  <!-- Column 2 - In Progress (Purple) -->
+  <g>
+    <!-- Column Header -->
+    <rect x="85" y="55" width="30" height="5" rx="2.5" fill="url(#purpleGradient)"/>
+    <!-- Cards -->
+    <rect x="85" y="67" width="30" height="18" rx="3" fill="url(#purpleGradient)" opacity="0.9"/>
+    <rect x="85" y="90" width="30" height="18" rx="3" fill="url(#purpleGradient)" opacity="0.7"/>
+  </g>
+  
+  <!-- Column 3 - Done (Green) -->
+  <g>
+    <!-- Column Header -->
+    <rect x="125" y="55" width="30" height="5" rx="2.5" fill="url(#greenGradient)"/>
+    <!-- Cards -->
+    <rect x="125" y="67" width="30" height="18" rx="3" fill="url(#greenGradient)" opacity="0.9"/>
+    <rect x="125" y="90" width="30" height="18" rx="3" fill="url(#greenGradient)" opacity="0.7"/>
+    <rect x="125" y="113" width="30" height="18" rx="3" fill="url(#greenGradient)" opacity="0.5"/>
+    <rect x="125" y="136" width="30" height="13" rx="3" fill="url(#greenGradient)" opacity="0.3"/>
+  </g>
+  
+  <!-- Gradients -->
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Blue Gradient -->
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Purple Gradient -->
+    <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EC4899;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Green Gradient -->
+    <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#34D399;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

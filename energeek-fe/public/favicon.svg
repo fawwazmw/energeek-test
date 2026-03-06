@@ -1,0 +1,27 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Simplified version for favicon -->
+  <rect width="32" height="32" rx="6" fill="url(#bgGradient)"/>
+  
+  <!-- Column 1 - Blue -->
+  <rect x="5" y="8" width="6" height="2" rx="1" fill="white" opacity="0.9"/>
+  <rect x="5" y="12" width="6" height="4" rx="1" fill="white" opacity="0.7"/>
+  <rect x="5" y="18" width="6" height="4" rx="1" fill="white" opacity="0.5"/>
+  
+  <!-- Column 2 - Purple -->
+  <rect x="13" y="8" width="6" height="2" rx="1" fill="white" opacity="0.9"/>
+  <rect x="13" y="12" width="6" height="4" rx="1" fill="white" opacity="0.7"/>
+  
+  <!-- Column 3 - Green -->
+  <rect x="21" y="8" width="6" height="2" rx="1" fill="white" opacity="0.9"/>
+  <rect x="21" y="12" width="6" height="4" rx="1" fill="white" opacity="0.7"/>
+  <rect x="21" y="18" width="6" height="4" rx="1" fill="white" opacity="0.5"/>
+  <rect x="21" y="24" width="6" height="3" rx="1" fill="white" opacity="0.3"/>
+  
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#10B981;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>
